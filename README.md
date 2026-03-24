@@ -1,7 +1,7 @@
 This repository contains analysis scripts, data files, and output objects related to the NSHAP network analysis project conducted on March 24, 2026. 
 
 File Descriptions:
-1. Files_Script_240326.Rmd — Main R Markdown analysis script containing code, commentary, and procedures for data processing and network estimation.
+1. Files_Script_240326.Rmd — Main R Markdown analysis script.
 2. Files_Script_240326.html — Knitted HTML version of the analysis script.
 3. Files_Styles_240326.css — Custom stylesheet for formatting knitted HTML output.
 4. Files_Codebook_140226.pdf — Codebook describing variables in the NSHAP dataset.
