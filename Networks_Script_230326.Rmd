@@ -1,5 +1,5 @@
 ---
-title: "Preliminary Report"
+title: "Final Report"
 author: "Timothy"
 date: "`r Sys.Date()`"
 output:
@@ -8,169 +8,10 @@ output:
     toc_float: true
     theme: cerulean
     code_folding: show
-    css: styles.css
+#    css: styles.css
   editor_options:
     chunk_output_type: inline
 ---
-# Materials
-
-<div style="text-indent: 1.5em;">
-The materials used in this report are available online through this [link](https://github.com/awbanghao/networks), which includes the National Social Life, and Ageing Project (NSHAP) dataset, the accompanying codebook, loaded objects, and knitted results.
-</div>
-
-# Submission
-
-## 1. Bridging resilience factors and dimensions of successful ageing: A network analysis 
-
-<div style="text-indent: 1.5em;">
-Population ageing is a defining demographic shift of the 21st century. By 2050, over 2.1 billion people will be aged 60 or older (Lin et al., 2020). Older age is accompanied by age-related challenges, such as chronic disease and cognitive decline (Waddell et al., 2024), and life changes such as spousal loss and reduced social networks that threaten well-being (Luo et al., 2012).
-
-Promoting favourable health trajectories to mitigate age-related decline is now a public health priority. Successful ageing (SA), as defined by Rowe and Kahn (1987), encompasses the absence of chronic disease, independence in daily activities, high cognitive and physical function, and continued social participation. However, these outcomes vary considerably between individuals (Thoma et al., 2021), raising the question of why some individuals maintain well-being while others experience substantial decline.
-
-Resilience is the capacity to maintain, recover, and adapt to adversity (Merchant et al., 2022), and is increasingly recognised as key to understanding heterogeneous ageing outcomes. Resilience-promoting factors such as physical activity correlate with reduced disability and cognitive impairment (Vitor et al., 2023), while resilience-reducing factors such as loneliness often undermine quality of life (Huisman et al., 2017). However, resilience is often treated as a single composite index (Hu, Zhang, & Wang, 2015), obscuring meaningful differences between specific resilience factors (Jacob et al., 2025).
-
-This study addressed this research gap by examining how resilience factors form a network with successful ageing dimensions. It aimed to identify communities in the cross-domain network (RQ1), and which resilience factors act as key bridging nodes between resilience factors and successful ageing outcomes, providing insight into potential intervention targets in successful ageing.
-</div>
-
-## 2. Methods
-### 2.1 Participants
-
-<div style="text-indent: 1.5em;">
-Data were from 3,196 community-dwelling adults from Wave 2 of the National Social Life, Health, and Aging Project (NSHAP), a population-based study of ageing in the United States (Suzman, 2009).
-</div>
-
-### 2.2 Data
-#### 2.2.1 Variables
-
-<div style="text-indent: 1.5em;">
-Successful ageing dimensions (Rowe & Kahn, 1987) included chronic disease burden, difficulties with activities of daily living, physical health, cognitive function, and social participation. Resilience factors (Brinkhof et al., 2025; Koivunen et al., 2025) included physical activity, body mass index, alcohol consumption, smoking status, number of friends, community participation, loneliness, depression, anxiety, happiness, mental health, and education. Demographic variables included age and income.
-</div>
-
-#### 2.2.2 Preprocessing
-
-<div style="text-indent: 1.5em;">
-Analyses were conducted in R (Version 4.5.1). Missing values (4.4%) were imputed via random forest imputation with _missRanger_ (Mayer & Mayer, 2019). Skip-listed items were recoded to prevent dependencies induced by questionnaire routing (Burger et al., 2023).
-</div>
-
-### 2.3 Network
-
-#### 2.3.1 Network estimation
-
-<div style="text-indent: 1.5em;">
-An undirected, weighted network was estimated using _bootnet_ (Epskamp, Borsboom, & Fried, 2018). Edges represented partial Spearman correlations to accommodate skewness and ordinal data. Given the large sample size (N = 3,196) relative to the number of nodes (N = 19), assumptions of network sparsity may not hold (Epskamp, Rhemtulla, & Borsboom, 2017). Thus, a model selection procedure, _ggmModSelect()_, was applied to prioritise edge specificity (Isvoranu & Epskamp, 2023).
-</div>
-
-#### 2.3.2 Network visualisation
-
-<div style="text-indent: 1.5em;">
-The network was visualised using _qgraph_ (Epskamp et al., 2012). Nodewise predictability was estimated in _mgm_ (Haslbeck & Waldorp, 2018) and represented the proportion of variance in each node explained by its neighbours in the network.
-</div>
-
-### 2.4 Analysis
-
-#### 2.4.1 Bridge centrality
-
-<div style="text-indent: 1.5em;">
-Bridge expected influence (BEI) was computed in _networktools_ (Jones, 2017) and represented the signed sum of a node's edge weights connected to nodes outside its community. Nodes above the 80th percentile were identified as influential bridges (Jones, Ma & McNally, 2021). BEI values were examined between predefined resilience and successful ageing communities.
-</div>
-
-#### 2.4.2 Community detection
-
-<div style="text-indent: 1.5em;">
-Community structures were identified using _walktrap_, _spinglass_, _Louvain_, and _fastgreedy_ algorithms within _igraph_ (Csardi et al., 2006), with partitions evaluated by modularity (Q).
-</div>
-
-#### 2.4.3 Stability and accuracy
-
-<div style="text-indent: 1.5em;">
-Edge weight stability was assessed via nonparametric bootstrapping (N = 1000) in _bootnet._ Bridge centrality stability was estimated using case-dropping bootstraps and summarised with the correlation stability (CS) coefficient. Bootstrapped difference tests compared edge weights and centrality measures between nodes.
-</div>
-
-## 3. Results
-
-### 3.1 Network description
-
-<div style="text-indent: 1.5em;">
-The estimated network is displayed in Figure 1, and comprised 19 nodes and 67 non-zero edges (out of 171 possible), indicating moderate connectivity (39.2% of possible edges were present). Edge-weight stability was excellent (CS = 0.75), indicating that the estimated network structure was robust to sampling variation. Nodewise predictability is displayed as node rings.
-</div>
-
-<center>
-![Figure 1: Network and Communities of Successful Ageing Dimensions and Resilience Factors](plot.jpg)
-<center>
-
-### 3.2 How do successful ageing dimensions and resilience factors cluster into network communities?
-
-<div style="text-indent: 1.5em;">
-The _walktrap_ and _Louvain_ algorithms yielded identical community partitions with the highest modularity (Q = 0.36). The communities were interpretable as: the physical and functional capacity community (N = 7), cognitive and socioeconomic community (N = 4), relational health community (N = 3), and emotional well-being community.
-</div>
-
-### 3.3 Which resilience factors act as the most influential bridges linking resilience-related factors to successful ageing outcomes in general?
-
-<div style="text-indent: 1.5em;">
-Bridge expected influence (BEI) estimates were excellent (CS = 0.75). Bootstrapped difference tests revealed that mental health (BEI = 0.443), educational attainment (BEI = 0.436) and physical activity (BEI = 0.339) formed the strongest bridges between the resilience and successful ageing community.
-</div>
-
-## 4. Discussion
-
-<div style="text-indent: 1.5em;">
-This study examined how resilience-promoting and resilience-reducing factors contribute to successful ageing through distinct pathways. Community detection algorithms revealed multiple cross-domain communities. This suggests that resilience may influence ageing outcomes through distinct pathways rather than as a unified construct (Hu, Zhang, & Wang, 2015). Prior research indicates that this clustering may reflect discrete age-related challenges, such as cognitive decline, multimorbidity, or social isolation (Jacob et al., 2025).
-
-Bridge expected influence (BEI) analyses identified several resilience-related nodes most strongly connected to successful ageing: mental health, education, and physical activity. Mental health bidirectionally relates to multiple ageing outcomes (Ohrenberger, Fichera, & Sutton, 2017) by supporting healthcare engagement and self-care. Educational attainment may reflect cognitive reserve and lifelong cognitive enrichment (Stern et al., 2023), which may buffer cognition against age-related neurobiological changes. Physical activity correlates with functional performance and healthy ageing (Weening-Dijksterhuis et al., 2011). Together, these resilience factors may be promising intervention targets for the general promotion of successful ageing.
-</div>
-
-## 5. References
-
-<div style="text-indent: -2em; padding-left: 2em;">
-Brinkhof, L. P., Ridderinkhof, K. R., de Wit, S., Krugers, H. J., & Murre, J. M. J. (2025). A cross-sectional network analysis of successful aging in a resilience-based framework. PLoS One, 20(1), e0315445. <https://doi.org/10.1371/journal.pone.0315445>
-
-Burger, J., Isvoranu, A. M., Lunansky, G., Haslbeck, J. M. B., Epskamp, S., Hoekstra, R. H. A., Fried, E. I., Borsboom, D., & Blanken, T. F. (2023). Reporting standards for psychological network analyses in cross-sectional data. Psychol Methods, 28(4), 806-824. <https://doi.org/10.1037/met0000471> 
-
-Csárdi, G., Nepusz, T., Traag, V., Horvát, S., Zanini, F., Noom, D., Müller, K., Schoch, D., & Salmon, M. (2006). igraph: Network Analysis and Visualization. <https://doi.org/10.32614/CRAN.package.igraph> 
-
-Epskamp, S., Borsboom, D., & Fried, E. I. (2018). Estimating psychological networks and their accuracy: A tutorial paper. Behav Res Methods, 50(1), 195-212. <https://doi.org/10.3758/s13428-017-0862-1> 
-
-Epskamp, S., Cramer, A. O. J., Waldorp, L. J., Schmittmann, V. D., & Borsboom, D. (2012). qgraph: Network Visualizations of Relationships in Psychometric Data. Journal of Statistical Software, 48(4). <https://doi.org/10.18637/jss.v048.i04> 
-
-Epskamp, S., Rhemtulla, M., & Borsboom, D. (2017). Generalized Network Psychometrics: Combining Network and Latent Variable Models. Psychometrika, 82(4), 904-927. <https://doi.org/10.1007/s11336-017-9557-x> 
-
-Haslbeck, J. M. B., & Waldorp, L. J. (2018). How well do network models predict observations? On the importance of predictability in network models. Behav Res Methods, 50(2), 853-861. <https://doi.org/10.3758/s13428-017-0910-x> 
-
-Hu, T., Zhang, D., & Wang, J. (2015). A meta-analysis of the trait resilience and mental health. Personality and Individual Differences, 76, 18-27. <https://doi.org/10.1016/j.paid.2014.11.039> 
-
-Huisman, M., Klokgieters, S. S., & Beekman, A. T. F. (2017). Successful ageing, depression and resilience research; a call for a priori approaches to investigations of resilience. Epidemiol Psychiatr Sci, 26(6), 574-578. <https://doi.org/10.1017/S2045796017000348> 
-
-Isvoranu, A. M., & Epskamp, S. (2023). Which estimation method to choose in network psychometrics? Deriving guidelines for applied researchers. Psychol Methods, 28(4), 925-946. <https://doi.org/10.1037/met0000439> 
-
-Jacob, B. A., Walker, C., O'Sullivan, M., Rouse, P., & Parsons, M. (2025). A Multidimensional Perspective on Resilience in Later Life: A Systematic Literature Review of Protective Factors and Adaptive Processes in Ageing. Geriatrics (Basel), 10(6). <https://doi.org/10.3390/geriatrics10060154> 
-
-Jones, P. (2017). networktools: Tools for Identifying Important Nodes in Networks. <https://doi.org/10.32614/CRAN.package.networktools> 
-
-Jones, P. J., Ma, R., & McNally, R. J. (2021). Bridge Centrality: A Network Approach to Understanding Comorbidity. Multivariate Behav Res, 56(2), 353-367. <https://doi.org/10.1080/00273171.2019.1614898> 
-
-Koivunen, K., Palmberg, L., Lunansky, G., Kok, A., Glynn, N. W., & Cooper, R. (2025). The interplay between perceived fatigability, intrinsic capacity, and physical activity: network analysis in a British birth cohort study. J Gerontol A Biol Sci Med Sci, 80(10). <https://doi.org/10.1093/gerona/glaf192> 
-
-Lin, Y. H., Chen, Y. C., Tseng, Y. C., Tsai, S. T., & Tseng, Y. H. (2020). Physical activity and successful aging among middle-aged and older adults: a systematic review and meta-analysis of cohort studies. Aging (Albany NY), 12(9), 7704-7716. <https://doi.org/10.18632/aging.103057> 
-
-Mayer, M., & Mayer, M. M. (2019). Package ‘missRanger’. R package, 820. 
-
-Merchant, R. A., Aprahamian, I., Woo, J., Vellas, B., & Morley, J. E. (2022). Editorial: Resilience And Successful Aging. J Nutr Health Aging, 26(7), 652-656. <https://doi.org/10.1007/s12603-022-1818-4> 
-
-Ohrnberger, J., Fichera, E., & Sutton, M. (2017). The relationship between physical and mental health: A mediation analysis. Soc Sci Med, 195, 42-49. <https://doi.org/10.1016/j.socscimed.2017.11.008> 
-
-Rowe, J. W., & Kahn, R. L. (2015). Successful Aging 2.0: Conceptual Expansions for the 21st Century. J Gerontol B Psychol Sci Soc Sci, 70(4), 593-596. <https://doi.org/10.1093/geronb/gbv025> 
-
-Stern, Y., Albert, M., Barnes, C. A., Cabeza, R., Pascual-Leone, A., & Rapp, P. R. (2023). A framework for concepts of reserve and resilience in aging. Neurobiology of Aging, 124, 100-103. <https://doi.org/10.1016/j.neurobiolaging.2022.10.015> 
-
-Suzman, R. (2009). The National Social Life, Health, and Aging Project: an introduction. J Gerontol B Psychol Sci Soc Sci, 64 Suppl 1(Suppl 1), i5-11. <https://doi.org/10.1093/geronb/gbp078> 
-
-Thoma, M. V., Kleineidam, L., Forstmeier, S., Maercker, A., Weyerer, S., Eisele, M., van den Bussche, H., Konig, H. H., Rohr, S., Stein, J., Wiese, B., Pentzek, M., Bickel, H., Maier, W., Scherer, M., Riedel-Heller, S. G., & Wagner, M. (2021). Associations and correlates of general versus specific successful ageing components. Eur J Ageing, 18(4), 549-563. <https://doi.org/10.1007/s10433-020-00593-4> 
-
-Vitor, J., Melita, C., Rodrigues, M., de Sousa, D. A., Costa, J., Ferro, J. M., & Verdelho, A. (2023). Physical activity in vascular cognitive impairment: Systematic review with meta-analysis. J Stroke Cerebrovasc Dis, 32(8), 107133. <https://doi.org/10.1016/j.jstrokecerebrovasdis.2023.107133> 
-
-Waddell, C., Van Doorn, G., Power, G., & Statham, D. (2024). From Successful Ageing to Ageing Well: A Narrative Review. Gerontologist, 65(1). <https://doi.org/10.1093/geront/gnae109> 
-
-Weening-Dijksterhuis, E., de Greef, M. H., Scherder, E. J., Slaets, J. P., & van der Schans, C. P. (2011). Frail institutionalized older persons: A comprehensive review on physical exercise, physical fitness, activities of daily living, and quality-of-life. Am J Phys Med Rehabil, 90(2), 156-168. <https://doi.org/10.1097/PHM.0b013e3181f703ef> 
-</div>
 
 # Settings
 ## Environment
@@ -973,8 +814,7 @@ inetwork <- graph_from_adjacency_matrix(
 , diag = FALSE)
 
 algorithms <- list(
-  spinglass = cluster_spinglass
-, walktrap = cluster_walktrap
+  walktrap = cluster_walktrap
 , louvain = cluster_louvain
 , fast_greedy = cluster_fast_greedy)
 
@@ -1113,12 +953,28 @@ communityplot <- plot(
 ```
 
 
-## Print objects
+## Print plot
 ```{r, eval = FALSE}
 pdf(file = "plot.pdf", width = 8, height = 6)
 plot(communityplot)
 dev.off()
-browseURL("plot.pdf")
+# browseURL("plot.pdf")
+```
+
+
+## Generate files
+```{r}
+weightsxl <- getWmat(network)
+write.csv(weightsxl, "weightsxl.csv")
+# browseURL("weightsxl.csv")
+
+predictabilityxl <- predictability$errors
+write.csv(predictabilityxl, "predictabilityxl.csv")
+# browseURL("predictabilityxl.csv")
+
+bridgexl <- bridge$`Bridge Expected Influence (1-step`
+write.csv(bridgexl, "bridgexl.csv")
+# browseURL("bridgexl.csv")
 ```
 
 
