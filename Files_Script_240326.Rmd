@@ -491,6 +491,8 @@ catvars <- c()
 
 This plots the distributions of variables.
 ```{r}
+
+# continuous variables
 if (length(contvars) > 0) {
   df_cont <- data %>%
     select(all_of(contvars)) %>%
@@ -504,6 +506,7 @@ if (length(contvars) > 0) {
       theme_minimal() +
       labs(title = "Distributions of continuous predictors", x = NULL, y = "Density"))}
 
+# ordinal variables
 if (length(ordvars) > 0) {
   df_ord <- data %>%
     select(all_of(ordvars)) %>%
@@ -518,6 +521,7 @@ if (length(ordvars) > 0) {
       theme_minimal() +
       labs(title = "Distributions of ordinal predictors", x = NULL, y = "Count"))}
 
+# categorical variables (there were none)
 if (length(catvars) > 0) {
   df_cat <- data %>%
     select(all_of(catvars)) %>%
@@ -546,6 +550,7 @@ cor_res <- rcorr(as.matrix(df_num), type = "spearman")
 cor_matrix <- cor_res$r
 p_matrix <- cor_res$P
 
+# spearman correlations (some variables were ordinal)
 ggcorrplot(
   cor_matrix
 , hc.order = TRUE,
@@ -629,12 +634,13 @@ Haslbeck, J. M. B., & Waldorp, L. J. (2020). mgm: Estimating Time-Varying Mixed 
 test <- as.matrix(data)
 cols <- ncol(test)
 
+# use MGM to estimate node predictability.
 set.seed(seed)
 fit_obj <- mgm(
   data = test
 , type = rep('g', cols)
 , level = rep('1',cols)
-, lambdSel = 'EBIC',
+, lambdSel = 'EBIC', # use EBICGlasso (following Prof. Ron Rogge's tutorial)
 ruleReg = 'OR')
 
 predictability <- predict(
@@ -661,7 +667,7 @@ sims <- netSimulator(
 , nCases = c(1000, 2000, 3196)
 , nReps = boots
 , nCores = nCores
-, default = "ggmModSelect"
+, default = "ggmModSelect"  # model selection procedure
 , stepwise  = TRUE
 , corMethod = "spearman")
 
@@ -675,6 +681,8 @@ load("Files_Simulation_240326.RData")
 
 ## Global metrics
 ```{r}
+# check global network metrics. 
+
 A <- network$graph
 A <- as.matrix(A)
 
@@ -707,12 +715,14 @@ Correlation-stability (CS) coefficients were computed in **bootnet** (Epskamp & 
 indexg1 <- c(1:5)
 indexg2 <- c(6:19)
 
+# assign predefined successful ageing, resilience factors.
 groups = list(
   "Successful Ageing" = indexg1
 , "Influencing Factors" = indexg2)
 ```
 
 ```{r, eval = FALSE}
+# edge stability
 bootnp1 <- bootnet(
   network
 , type = "nonparametric"
@@ -723,6 +733,7 @@ bootnp1 <- bootnet(
 
 save(bootnp1, file = "Files_BootstrapEdge_2402326.RData")
 
+# bootstrapping
 bootnp2 <- bootnet(
   network
 , nBoots = boots
@@ -733,6 +744,7 @@ bootnp2 <- bootnet(
 
 save(bootnp2, file = "Files_BootstrapBEI_2402326.RData")
 
+# stability coefficients
 bootcd <- bootnet(
   network
 , nBoots = boots
@@ -764,7 +776,6 @@ order = "sample"
 , communities = groups)
 
 # edge stability graphs
-
 bootnp1 %>% plot("edge", plot = "difference", onlyNonZero = TRUE, order = "sample")
 bootnp1 %>% plot(labels = FALSE, order = "sample")
 sims %>% plot()
@@ -837,7 +848,7 @@ communitynumber <- length(unique(community))
 
 ## Specific connections
 ```{r}
-
+# calculate edge weights
 W <- as.matrix(network$graph)
 
 sa  <- indexg1   # successful ageing dimensions (1:5)
@@ -865,7 +876,6 @@ RQ2_top13 <- RQ2_ranked |>
   select(sa_label, res_label, weight, abs_weight)
 
 RQ2_top13
-
 ```
 
 
@@ -893,6 +903,7 @@ node_names <- c(
 , "Community participation"
 , "Body-mass index")
 
+# use communities detected
 communitygroups <- lapply(unique(community), function(comm_num) {which(community == comm_num)})
 names(communitygroups) <- paste("Community", 1:length(communitygroups))
 
