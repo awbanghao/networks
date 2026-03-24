@@ -8,7 +8,7 @@ output:
     toc_float: true
     theme: cerulean
     code_folding: show
-    css: styles.css
+    css: Files_Styles_240326.css
   editor_options:
     chunk_output_type: inline
 ---
@@ -117,16 +117,16 @@ This imports the National Social Life, Health, and Ageing (NSHAP) dataset with t
 
 **Author**: Wickham, H., & Bryan, J. (2025). *readxl: Read Excel files (Version 1.4.5)* [R package]. CRAN.
 ```{r, eval = FALSE}
-raw <- read_excel("Networks_Dataset_140226.xlsx"
+raw <- read_excel("Files_Dataset_240326.xlsx"
 , sheet = "34921-0001-Data"
 , skip = 10
 , col_names = TRUE)
 
-save(raw, file = "raw.RData")
+save(raw, file = "Files_RawData_240326.Rdata")
 ```
 
 ```{r}
-load("raw.RData")
+load("Files_RawData_240326.Rdata")
 ```
 
 
@@ -389,11 +389,11 @@ dfimputed %>% describe()
 
 data <- dfimputed
 
-save(data, file = "data.RData")
+save(data, file = "Files_ImputedData_240326.RData")
 ```
 
 ```{r}
-load("data.RData")
+load("Files_ImputedData_240326.RData")
 ```
 
 
@@ -612,11 +612,11 @@ network <- estimateNetwork(
 , default = "ggmModSelect" 
 , corMethod = "spearman")
 
-save(network, file = "network.RData")
+save(network, file = "Files_Network_240326.RData")
 ```
 
 ```{r}
-load("network.RData")
+load("Files_Network_240326.RData")
 ```
 
 
@@ -642,11 +642,11 @@ predictability <- predict(
   data = test,
   errorCon = 'R2')
 
-save(predictability, file = "predictability.RData")
+save(predictability, file = "Files_Predictability_240326.RData")
 ```
 
 ```{r}
-load("predictability.RData")
+load("Files_Predictability_240326.RData")
 ```
 
 
@@ -665,11 +665,11 @@ sims <- netSimulator(
 , stepwise  = TRUE
 , corMethod = "spearman")
 
-save(sims, file = "sims.RData")
+save(sims, file = "Files_Simulation_240326.RData")
 ```
 
 ```{r}
-load("sims.RData")
+load("Files_Simulation_240326.RData")
 ```
 
 
@@ -721,7 +721,7 @@ bootnp1 <- bootnet(
 , nCores = nCores
 , statistics = c("edge"))
 
-save(bootnp1, file = "bootnp1.RData")
+save(bootnp1, file = "Files_BootstrapEdge_2402326.RData")
 
 bootnp2 <- bootnet(
   network
@@ -731,7 +731,7 @@ bootnp2 <- bootnet(
 , statistics = c("bridgeExpectedInfluence")
 , communities = groups)
 
-save(bootnp2, file = "bootnp2.RData")
+save(bootnp2, file = "Files_BootstrapBEI_2402326.RData")
 
 bootcd <- bootnet(
   network
@@ -742,13 +742,13 @@ bootcd <- bootnet(
                  "edge")
 , communities = groups)
 
-save(bootcd, file = "bootcd.RData")
+save(bootcd, file = "Files_BootstrapCaseDrop_2402326.RData")
 ```
 
 ```{r}
-load("bootnp1.RData")
-load("bootnp2.RData")
-load("bootcd.RData")
+load("Files_BootstrapEdge_2402326.RData")
+load("Files_BootstrapBEI_2402326.RData")
+load("Files_BootstrapCaseDrop_2402326.RData")
 ```
 
 
@@ -953,28 +953,24 @@ communityplot <- plot(
 ```
 
 
-## Print plot
-```{r, eval = FALSE}
-pdf(file = "plot.pdf", width = 8, height = 6)
-plot(communityplot)
-dev.off()
-# browseURL("plot.pdf")
-```
-
-
 ## Generate files
 ```{r}
+pdf(file = "Files_Network_240326.pdf", width = 8, height = 6)
+plot(communityplot)
+dev.off()
+# browseURL("Files_Network_240326.pdf")
+
 weightsxl <- getWmat(network)
-write.csv(weightsxl, "weightsxl.csv")
-# browseURL("weightsxl.csv")
+write.csv(weightsxl, "Output_EdgeWeights_240326.csv")
+# browseURL("Output_EdgeWeights_240326.csv")
 
 predictabilityxl <- predictability$errors
-write.csv(predictabilityxl, "predictabilityxl.csv")
-# browseURL("predictabilityxl.csv")
+write.csv(predictabilityxl, "Output_Predictability_240326.csv")
+# browseURL("Output_Predictability_240326.csv")
 
 bridgexl <- bridge$`Bridge Expected Influence (1-step`
-write.csv(bridgexl, "bridgexl.csv")
-# browseURL("bridgexl.csv")
+write.csv(bridgexl, "Output_BridgeValues_240326.csv")
+# browseURL("Output_BridgeValues_240326.csv")
 ```
 
 
