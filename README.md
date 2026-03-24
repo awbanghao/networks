@@ -20,5 +20,5 @@ File Descriptions:
 
 Usage:
 1. Open Files_Script_240326.Rmd in RStudio.
-2. Ensure all required .RData files are loaded into your environment.
+2. Ensure all required .RData files are loaded into the working directory (same folder as analysis script).
 3. Knit or run the R Markdown file to replicate the full analysis and generate visual outputs.
