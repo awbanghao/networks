@@ -969,23 +969,114 @@ communityplot <- plot(
 pdf(file = "Files_Network_240326.pdf", width = 8, height = 6)
 plot(communityplot)
 dev.off()
-# browseURL("Files_Network_240326.pdf")
+browseURL("Files_Network_240326.pdf")
 
 weightsxl <- getWmat(network)
 write.csv(weightsxl, "Output_EdgeWeights_240326.csv")
-# browseURL("Output_EdgeWeights_240326.csv")
+browseURL("Output_EdgeWeights_240326.csv")
 
 predictabilityxl <- predictability$errors
 write.csv(predictabilityxl, "Output_Predictability_240326.csv")
-# browseURL("Output_Predictability_240326.csv")
+browseURL("Output_Predictability_240326.csv")
 
 bridgexl <- bridge$`Bridge Expected Influence (1-step`
 write.csv(bridgexl, "Output_BridgeValues_240326.csv")
-# browseURL("Output_BridgeValues_240326.csv")
+browseURL("Output_BridgeValues_240326.csv")
 ```
 
 
+## Presentation stuff
+```{r}
+# custom communities
+presentationcommunity <- c(rep(1, 5), rep(2, 14))
 
+presentationcommunitygroups <- lapply(unique(presentationcommunity), function(comm_num) {which(presentationcommunity == comm_num)})
+names(presentationcommunitygroups) <- c("Successful Ageing", "Resilience Factors")
+
+plot1 <- plot(
+  
+# network
+  network
+, layout = "spring"
+, bidirectional = FALSE
+, directed = FALSE
+, minimum = 0.05
+, GLratio = 3
+  
+# edges
+, posCol = "steelblue"
+, negCol = "violetred3"
+, esize = 15
+, edge.width = 1
+, edge.labels = FALSE
+, edge.label.cex = 1
+  
+# nodes
+, shape = "circle"
+, vsize = 6
+, border.color = "#677271"
+#, pie = predictability$errors$R2
+#, pieColor = rep("#D2CCC5", length(node_labels))
+
+# labels
+, label = node_labels
+, label.font = 2
+, label.scale.equal = TRUE
+, nodeNames = node_names
+  
+# legend
+, legend = TRUE
+, legend.mode = "style1"
+, legend.cex = 0.35
+  
+# community
+, color = c("#e0f1ff", "#ffe2ef")[presentationcommunity]
+, label.color = rep("#677271", length(presentationcommunity))[presentationcommunity]
+, groups = presentationcommunitygroups)
+
+plot1 %>% print()
+
+# pdf(file = "video1.pdf", width = 8, height = 6)
+# plot(plot1)
+# dev.off()
+# browseURL("video1.pdf")
+```
+
+```{r}
+bei <- bridge$`Bridge Expected Influence (1-step)`
+df <- data.frame(
+  node = names(bei),
+  bei = bei,
+  community = bridge$communities
+) %>%
+  filter(community == "2") %>%  # only community 2
+  mutate(
+    node = reorder(node, bei),  # Order by value
+    sign_group = ifelse(bei < 0, "negative", "positive")  # Color groups
+  )
+
+plot2 <- ggplot(df, aes(x = bei, y = node, fill = sign_group)) +
+  geom_col(width = 0.7) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black", size = 0.5) +
+  scale_fill_manual(
+    values = c("negative" = "violetred", "positive" = "steelblue"),
+    name = "BEI Sign"
+  ) +
+  labs(
+    title = "Bridge Expected Influence (BEI) with Successful Ageing",
+    x = "BEI",
+    y = "Resilience Factors"
+  ) +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+plot2 %>% print()
+
+# pdf(file = "video2.pdf", width = 8, height = 6)
+# plot(plot2)
+# dev.off()
+# browseURL("video2.pdf")
+```
 
 
 
