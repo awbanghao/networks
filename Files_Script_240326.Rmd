@@ -969,19 +969,19 @@ communityplot <- plot(
 pdf(file = "Files_Network_240326.pdf", width = 8, height = 6)
 plot(communityplot)
 dev.off()
-browseURL("Files_Network_240326.pdf")
+#browseURL("Files_Network_240326.pdf")
 
 weightsxl <- getWmat(network)
 write.csv(weightsxl, "Output_EdgeWeights_240326.csv")
-browseURL("Output_EdgeWeights_240326.csv")
+#browseURL("Output_EdgeWeights_240326.csv")
 
 predictabilityxl <- predictability$errors
 write.csv(predictabilityxl, "Output_Predictability_240326.csv")
-browseURL("Output_Predictability_240326.csv")
+#browseURL("Output_Predictability_240326.csv")
 
 bridgexl <- bridge$`Bridge Expected Influence (1-step`
 write.csv(bridgexl, "Output_BridgeValues_240326.csv")
-browseURL("Output_BridgeValues_240326.csv")
+#browseURL("Output_BridgeValues_240326.csv")
 ```
 
 
@@ -1072,10 +1072,10 @@ plot2 <- ggplot(df, aes(x = bei, y = node, fill = sign_group)) +
 
 plot2 %>% print()
 
-# pdf(file = "video2.pdf", width = 8, height = 6)
-# plot(plot2)
-# dev.off()
-# browseURL("video2.pdf")
+ pdf(file = "video2.pdf", width = 8, height = 6)
+ plot(plot2)
+ dev.off()
+ browseURL("video2.pdf")
 ```
 
 
