@@ -14,7 +14,7 @@ File Descriptions:
 10. Files_RawData_240326.RData - Dataset as object.
 11. Files_Script_240326.Rmd - RStudio script.
 12. Files_Script_240326.html - R knitted file.
-13. Files_Simulation_240326.RData — Network simulation object.
+13. Files_Simulation_240326.RData - Network simulation object.
 14. Files_Styles_240326.css - Style sheet for knitted file.
 15. Networks_Final_230326.docx - Final report.
 16. Networks_Final_230326.pdf - Final Report (as pdf).
